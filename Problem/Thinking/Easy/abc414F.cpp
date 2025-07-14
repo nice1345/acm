@@ -8,19 +8,20 @@ const int mod = 998244353;
 void solve() {
     int n, k;
     cin >> n >> k;
-    vector<vector<pair<int,int>>> g(n, vector<pair<int,int>>());
-    vector<vector<int>>vis(n,vector<int>(k,2));
-    vector<vector<bool>>fr(n*2 - 2,vector<bool>(k,false));
+    vector<vector<int>> g(n, vector<int>()),
+            fr(n,vector<int>(k,-1)),
+            vis(n, vector<int>(k, 2));
     vector<int>f(n,-1);
-    for (int i = 0; i < n - 1; ++i) {
+    for (int i = 1; i < n; ++i) {
         int u, v;
         cin >> u >> v;
         --u;
         --v;
-        g[u].emplace_back(v,i*2);
-        g[v].emplace_back(u,i*2|1);
+        g[u].push_back(v);
+        g[v].push_back(u);
     }
     f[0] = 0;
+    vis[0][0] = 2;
     queue<array<int, 4>> q;
     q.push({0, 0, 0, 0});
     while (!q.empty()) {
@@ -28,12 +29,12 @@ void solve() {
         q.pop();
         ++d;
         b = (b + 1) % k;
-        for (auto [to,e]: g[cur]) {
-            if (vis[to][b] == 0 || (b != 1 && to == fa) || fr[e][b])continue;
+        for (int to: g[cur]) {
+            if (vis[to][b] == 0 || (b != 1 && to == fa) || (vis[to][b] == 1 && cur == fr[to][b]))continue;
             --vis[to][b];
-            if (!fr[e][b]) {
-                fr[e][b]=true;
-                if(b == 0 && f[to] == -1){
+            if (vis[to][b] == 1) {
+                fr[to][b]=cur;
+                if(b == 0){
                     f[to] = d/k;
                 }
             }
