@@ -1,8 +1,5 @@
 cmake_minimum_required(VERSION 3.21)
 project(untitled)
-MATH(EXPR stack_size "16*1024*1024*1024")
-set(CMAKE_EXE_LINKER_FLAGS "-Wl,--stack,${stack_size}")
-
 set(CMAKE_CXX_STANDARD 23)
 add_executable(main main.cpp )
 add_executable(hdu7275 Problem/Math/hdu7275.cpp)
@@ -107,3 +104,4 @@ add_executable(abc414F Problem/Thinking/Easy/abc414F.cpp)
 add_executable(CF2122C Problem/Thinking/Easy/CF2122C.cpp)
 add_executable(CF2122D Problem/Observe/CF2122D.cpp)
 add_executable(CF2127E Problem/Observe/CF2127E.cpp)
+add_executable(CF2122E Problem/DP/thinking_dp/easy/CF2122E.cpp)
