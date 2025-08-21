@@ -5,6 +5,29 @@ using namespace std;
 typedef long long ll;
 const int N = 1000005;
 
+const long long P = 998244353;
+template<class T,class F,const F P>
+struct modint{
+    using M = modint<T,F,P>;
+    T v;
+    modint(F x = 0){v=x%P;}
+    constexpr M operator+(const M &o)const{F u=v;u+=o.v;mo(u);M res;res.v=u;return res;}
+    constexpr M operator-(const M &o)const{F u=v;u-=o.v;mo(u);M res;res.v=u;return res;}
+    constexpr M operator*(const M &o)const{return M((F)v*o.v);}
+    constexpr M operator/(const M &o)const{return M((F)v*o.inv().v);}
+    constexpr M& operator++(){++v;if constexpr(v==P)v=0;return *this;}
+    constexpr M& operator--(){--v;if constexpr(v==-P)v=0;return *this;}
+    constexpr M& operator+=(const M &o){F u=v;u+=o.v;mo(u);v=u;return *this;}
+    constexpr M& operator-=(const M &o){F u=v;u-=o.v;mo(u);v=u;return *this;}
+    constexpr M& operator*=(const M &o){v=(F)v*o.v%P;return *this;}
+    constexpr M& operator/=(const M &o){v=(F)v*o.inv().v%P;return *this;}
+    constexpr M pow(F b){M res=1,a=*this;while(b){if constexpr(b&1)res*=a;a*=a;b>>=1;}return res;}
+    constexpr M inv(){return pow(P-2);}
+    constexpr void mo(F &u){if (u<-P)u+=P;if (u>P)u-=P;}
+    friend std::ostream& operator<<(std::ostream& os, const M& o) {os << (o.v+P)%P;return os;}
+};
+using Mint = modint<int,long long,P>;
+
 template<const int T>
 struct ModInt {
     const static int mod = T;
@@ -109,14 +132,7 @@ i128 qmi(i128 a,i128 b){
 
 int main() {
 cin.tie()->sync_with_stdio(0);
-i128 a,b={8};
-a.vaule=7;
-a=a*b;
-
-    writeint128(a.vaule);
-
-
-
-
+    // 指针类型
+    std::cout << "sizeof(long long*): " << sizeof(long long*) << "字节" << std::endl;
     return 0;
 }
