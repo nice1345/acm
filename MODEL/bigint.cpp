@@ -24,6 +24,7 @@ struct modint{
     constexpr M pow(F b){M res=1,a=*this;while(b){if constexpr(b&1)res*=a;a*=a;b>>=1;}return res;}
     constexpr M inv(){return pow(P-2);}
     constexpr void mo(F &u){if (u<-P)u+=P;if (u>P)u-=P;}
+    friend std::ostream& operator>>(std::ostream& os, const M& o) {os >> o.v;return os;}
     friend std::ostream& operator<<(std::ostream& os, const M& o) {os << (o.v+P)%P;return os;}
 };
 using Mint = modint<int,long long,P>;
