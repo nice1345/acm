@@ -104,20 +104,17 @@ void solve() {
         cin >> x >> y;
         banned[x - 1][y - 1] = true;
     }
-    vector<Mint> tot(N + 1);
-    tot[N] = 1;
-    vector<vector<Mint>> dp(N + 1, vector<Mint>(N + 1));
     vector<vector<int>> chain(N + 1, vector<int>(N + 1));
-
     for (int i = N - 1; i >= 0; --i) {
         for (int j = N - 1; j >= 0; --j) {
             chain[i][j] = 1 + chain[i + 1][j + 1];
             if (banned[i][j]) chain[i][j] = 0;
         }
     }
-
+    vector<Mint> tot(N + 1);
+    tot[N] = 1;
+    vector<vector<Mint>> dp(N + 1, vector<Mint>(N + 1));
     vector<vector<Mint>> ssum(N + 2, vector<Mint>(N + 1));
-
     for (int i = N - 1; i >= 0; --i) {
         for (int j = 0; j <= N - i; ++j) {
             if (j == 0) {
@@ -145,8 +142,6 @@ void solve() {
             }
         }
     }
-    // cout << dp << endl;
-    // cout << ssum << endl;
     cout << tot[0].v << '\n';
 }
 

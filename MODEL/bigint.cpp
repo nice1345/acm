@@ -23,11 +23,34 @@ struct modint{
     constexpr M& operator/=(const M &o){v=(F)v*o.inv().v%P;return *this;}
     constexpr M pow(F b){M res=1,a=*this;while(b){if constexpr(b&1)res*=a;a*=a;b>>=1;}return res;}
     constexpr M inv(){return pow(P-2);}
-    constexpr void mo(F &u){if (u<-P)u+=P;if (u>P)u-=P;}
+    constexpr friend void mo(F &u){if (u<-P)u+=P;if (u>P)u-=P;}
     friend std::ostream& operator>>(std::ostream& os, const M& o) {os >> o.v;return os;}
     friend std::ostream& operator<<(std::ostream& os, const M& o) {os << (o.v+P)%P;return os;}
 };
-using Mint = modint<int,long long,P>;
+using example1 = modint<int,long long,P>;
+
+template<class T,class F,const F P>
+struct mint{
+    using M = mint<T,F,P>;
+    T v;
+    mint(F x = 0){v=x%P;}
+    constexpr M operator+(const M &o)const{auto res=o;res.v+=v;mo(res.v);return res;}
+    constexpr M operator-(const M &o)const{auto res=o;res.v-=v;mo(res.v);return res;}
+    constexpr M operator*(const M &o)const{return M((F)v*o.v);}
+    constexpr M operator/(const M &o)const{return M((F)v*o.inv().v);}
+    constexpr M& operator++(){++v;if constexpr(v==P)v=0;return *this;}
+    constexpr M& operator--(){--v;if constexpr(v==-P)v=0;return *this;}
+    constexpr M& operator+=(const M &o){v+=o.v;mo(v);return *this;}
+    constexpr M& operator-=(const M &o){v-=o.v;mo(v);return *this;}
+    constexpr M& operator*=(const M &o){v=(F)v*o.v%P;return *this;}
+    constexpr M& operator/=(const M &o){v=(F)v*o.inv().v%P;return *this;}
+    constexpr M pow(F b){M res=1,a=*this;while(b){if constexpr(b&1)res*=a;a*=a;b>>=1;}return res;}
+    constexpr M inv(){return pow(P-2);}
+    constexpr friend void mo(T &u){if (u<-P)u+=P;if (u>P)u-=P;}
+    friend std::ostream& operator>>(std::ostream& os, const M& o) {os >> o.v;return os;}
+    friend std::ostream& operator<<(std::ostream& os, const M& o) {os << (o.v+P)%P;return os;}
+};
+using Mint = mint<int,long long,P>;
 
 template<const int T>
 struct ModInt {
@@ -75,7 +98,7 @@ struct ModInt {
     }
 
 };
-using mint = ModInt<998244353>;
+using example2 = ModInt<998244353>;
 
 
 
