@@ -91,6 +91,14 @@ void solve1() {
 
 /**
  题解做法，复杂度 n^2+m,m可以为n^2
+
+ 先处理出链
+ chain[i][j] 从位置i,i+1,i+2,  放 j,j+1,j+2能放多少个
+ 从后往前dp
+ f[i][j]表示 i~n都被循环填充 i 放 j 的方案数  j>1
+ g[i][j]表示 i~n都被循环填充  从i开始的循环 是一个 1、2、3..j的方案数
+ f[i][j]=g[i+1][j-1]+g[i+2][j-1]...    可以得到chain[i][j]个,这里后缀和优化掉
+ g[i][j]=f[i+j][!=j+1]+g[i][all]   也能用后缀和优化掉
  **/
 
 using namespace std;
@@ -105,12 +113,10 @@ void solve() {
         banned[x - 1][y - 1] = true;
     }
     vector<vector<int>> chain(N + 1, vector<int>(N + 1));
-    for (int i = N - 1; i >= 0; --i) {
-        for (int j = N - 1; j >= 0; --j) {
-            chain[i][j] = 1 + chain[i + 1][j + 1];
+    for (int i = N - 1; i >= 0; --i)
+        for (int j = N - 1; j >= 0; --j)
             if (banned[i][j]) chain[i][j] = 0;
-        }
-    }
+            else chain[i][j] = 1 + chain[i + 1][j + 1];
     vector<Mint> tot(N + 1);
     tot[N] = 1;
     vector<vector<Mint>> dp(N + 1, vector<Mint>(N + 1));
